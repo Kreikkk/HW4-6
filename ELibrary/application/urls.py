@@ -16,9 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+import posts.api.urls as post_urls
+import users.api.urls as user_urls
+
+
 
 urlpatterns = [ 
     path('admin/', admin.site.urls),
-    path('feed/', include('feed.urls')),
+    path('posts/', include('posts.urls')),
     path('users/', include('users.urls')),
 ]
+
+urlpatterns += user_urls.urlpatterns
+urlpatterns += post_urls.urlpatterns    #Почему в root api показывается то, что тут первое?

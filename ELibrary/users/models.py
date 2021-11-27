@@ -4,16 +4,15 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 class User(AbstractUser):
-    username = models.CharField(verbose_name='Username', max_length=50)
+    username = models.CharField(verbose_name='Username', max_length=50, null=False, unique=True)
     email = models.EmailField(verbose_name='EMail', null=False, unique=True)
-    university = models.CharField(verbose_name='University', max_length=50, null=True)
+    info = models.TextField(verbose_name='Info', max_length=1000, null=True)
 
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
 
     def __str__(self):
-        return self.email
+        return self.username
 
     class Meta:
         verbose_name = 'Пользователь'
