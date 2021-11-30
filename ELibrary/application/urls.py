@@ -27,5 +27,6 @@ urlpatterns = [
     path('users/', include('users.urls')),
 ]
 
+urlpatterns += post_urls.urlpatterns
 urlpatterns += user_urls.urlpatterns
-urlpatterns += post_urls.urlpatterns    #Почему в root api показывается то, что тут первое?
+#Почему в root api показывается то, что тут первое?

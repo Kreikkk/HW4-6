@@ -1,9 +1,8 @@
 from django.core.checks.messages import Info
-from django.shortcuts import render
 from django.views.decorators.http import require_GET, require_POST
 from django.http import HttpResponse, JsonResponse
 from users.models import User
-from  django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
 # Create your views here.
 
 
@@ -24,21 +23,16 @@ def create_user(request):
 
 @require_GET
 def delete_user(request, email):
-    try:
-        User.objects.get(email=email).delete()
-    except ObjectDoesNotExist:
-        return HttpResponse(status=404)
+    user = get_object_or_404(User, email=email)
+    user.delete()
 
     return JsonResponse({'deleted': {'user_email': email}})
 
 
 @require_GET
 def get_user_info(request, email):
-    try:
-        user = User.objects.get(email=email)
-    except ObjectDoesNotExist:
-        return HttpResponse(status=404)
-
+    user = get_object_or_404(User, email=email)
+  
     info = {'email': user.email,
             'username': user.username,
             'university': user.university,}
@@ -53,11 +47,7 @@ def update_user(request):
     university = request.POST.get('university')
     
     User.objects.filter(email=email).update(username=username, university=university)
-
-    try:
-        post = User.objects.get(email=email)
-    except ObjectDoesNotExist:
-        return HttpResponse(status=404)
+    user = get_object_or_404(User, email=email)
 
     info = {'email': email,
             'username': username,

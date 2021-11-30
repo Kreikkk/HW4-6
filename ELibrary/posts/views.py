@@ -1,8 +1,6 @@
 from datetime import datetime
-from django.db.models.query import RawQuerySet
 from django.http.response import HttpResponse, JsonResponse
 from django.views.decorators.http import require_GET, require_POST
-from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 from django.shortcuts import render, get_object_or_404
 
@@ -21,12 +19,9 @@ def create_post(request):
     if None in (title, category_name, author_email, body):
         return HttpResponse(status=400)
 
-    try:
-        category = Category.objects.get(name=category_name)
-        author = User.objects.get(email=author_email)
-    except ObjectDoesNotExist:
-        return HttpResponse(status=404)
-    
+    author = get_object_or_404(User, email=author_email)
+    category = get_object_or_404(Category, name=category_name)
+
     Post.objects.create(title=title, category=category, author=author, body=body)
 
     return JsonResponse({'created': dct})
@@ -34,20 +29,14 @@ def create_post(request):
 
 @require_GET
 def delete_post(request, pk):
-    try:
-        Post.objects.get(pk=pk).delete()
-    except ObjectDoesNotExist:
-        return HttpResponse(status=404)
-
+    post = get_object_or_404(Post, pk=pk)
+    post.delete()
     return JsonResponse({'deleted': {'post_id': pk}})
 
 
 @require_GET
 def get_post_info(request, pk):
-    try:
-        post = Post.objects.get(pk=pk)
-    except ObjectDoesNotExist:
-        return HttpResponse(status=404)
+    post = get_object_or_404(Post, pk=pk)
 
     info = {'pk': pk,
             'title': post.title,
@@ -64,11 +53,7 @@ def update_post(request):
     title = request.POST.get('title')
     body = request.POST.get('body')
     Post.objects.filter(pk=pk).update(title=title, body=body)
-
-    try:
-        post = Post.objects.get(pk=pk)
-    except ObjectDoesNotExist:
-        return HttpResponse(status=404)
+    post = get_object_or_404(Post, pk=pk)
 
     info = {'pk': pk,
             'title': post.title,

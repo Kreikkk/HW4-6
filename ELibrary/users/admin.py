@@ -5,5 +5,6 @@ from users.models import User
 class UserAdmin(admin.ModelAdmin):
     ordering = ('username',)
     list_filter = ('email',)
+    search_fields = ('email',)
 
 admin.site.register(User, UserAdmin)
