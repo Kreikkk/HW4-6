@@ -20,7 +20,6 @@ import posts.api.urls as post_urls
 import users.api.urls as user_urls
 
 
-
 urlpatterns = [ 
     path('admin/', admin.site.urls),
     path('posts/', include('posts.urls')),
