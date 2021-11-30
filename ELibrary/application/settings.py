@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     \
     'posts',
     'users',
+    \
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +54,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.github.GithubOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_URL = 'logout'
+LOGOUT_REDIRECT_URL = 'login'
+
 
 ROOT_URLCONF = 'application.urls'
 
