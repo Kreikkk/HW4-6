@@ -3,6 +3,7 @@ from django.http.response import HttpResponse, JsonResponse
 from django.views.decorators.http import require_GET, require_POST
 from datetime import datetime
 from django.shortcuts import render, get_object_or_404
+from application.decorators import login_required
 
 from users.models import User
 from posts.models import Post, Category 
@@ -84,6 +85,7 @@ def feed(request, post_id):
                          'date_posted': str(datetime.now().year)})
 
 
+@login_required
 @require_GET
 def index(request):
     return render(request, 'index.html')
