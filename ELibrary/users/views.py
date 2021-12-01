@@ -1,19 +1,7 @@
-from django.core.checks.messages import Info
 from django.views.decorators.http import require_GET, require_POST
 from django.http import HttpResponse, JsonResponse
 from users.models import User
-from django.shortcuts import get_object_or_404, render
-
-from application.decorators import login_required
-
-
-def login(request):
-    return render(request, 'login.html')
-
-
-@login_required
-def home(request):
-    return render(request, 'home.html')
+from django.shortcuts import get_object_or_404
 
 
 @require_POST
