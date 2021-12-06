@@ -15,22 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from application.views import home, info
 from django.contrib.auth import views as auth_views
-from application.views import home, login, logout, info
 
 import posts.api.urls as post_urls
 import users.api.urls as user_urls
 
 
-urlpatterns = [ 
+urlpatterns = [
     path('', home, name='home'),
     path('info/', info, name='info'),
     path('admin/', admin.site.urls),
     path('posts/', include('posts.urls')),
     path('users/', include('users.urls')),
     \
-    path('login/', login, name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
     path('social_auth/', include('social_django.urls', namespace='social')),
 ]
 

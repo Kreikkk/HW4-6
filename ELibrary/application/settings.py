@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -66,6 +66,8 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_URL = 'logout'
 LOGOUT_REDIRECT_URL = 'login'
 
+# SOCIAL_AUTH_GITHUB_OAUTH2_AUTH_EXTRA_ARGUMENTS = { 'prompt': 'select_account' }
+SOCIAL_AUTH_GITHUB_OAUTH2_AUTH_EXTRA_ARGUMENTS = { 'approval_prompt': 'force' }
 
 ROOT_URLCONF = 'application.urls'
 
