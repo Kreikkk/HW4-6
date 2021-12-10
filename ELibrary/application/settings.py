@@ -44,7 +44,21 @@ INSTALLED_APPS = [
     'rest_framework',
     'social_django',
     'sslserver',
+    'django_celery_results',
+    'celery',
 ]
+
+CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BEAT_SCHEDULE = {
+    'user_checking': {
+        'task': 'users.tasks.count_users',
+        'schedule': 300,
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
