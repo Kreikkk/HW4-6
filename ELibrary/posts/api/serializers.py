@@ -1,6 +1,8 @@
-from rest_framework.utils import model_meta
 from posts.models import Post, Category
 from rest_framework import serializers
+
+from django_elasticsearch_dsl_drf.serializers import DocumentSerializer
+from posts.documents import *
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -33,3 +35,15 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['name']
 
     
+class PostsDocumentSerializer(DocumentSerializer):
+    class Meta:
+        model = Post
+        document = PostsDocument
+
+        fields = ('title', 'body')
+
+        def get_location(self, obj):
+            try:
+                return obj.location.to_dict()
+            except:
+                return {}

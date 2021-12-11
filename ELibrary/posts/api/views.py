@@ -1,9 +1,14 @@
-from posts.api.serializers import PostSerializer, CategorySerializer
+from posts.documents import PostsDocument
+from posts.api.serializers import PostSerializer, CategorySerializer, PostsDocumentSerializer
 
-from rest_framework import serializers, viewsets, status
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 
+from django_elasticsearch_dsl_drf.viewsets import DocumentViewSet
+from django_elasticsearch_dsl_drf.filter_backends import FilteringFilterBackend, CompoundSearchFilterBackend
+
 from posts.models import Post, Category
+from posts.documents import *
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -83,3 +88,16 @@ class CategoryViewSet(viewsets.ModelViewSet):
         instance.delete()
 
         return Response(status=status.HTTP_200_OK)
+
+
+class PublisherDocumentView(DocumentViewSet):
+    document = PostsDocument
+    serializer_class = PostsDocumentSerializer
+
+    filter_backends = [FilteringFilterBackend,
+                       CompoundSearchFilterBackend]
+
+    search_fields = ('title', 'body')
+    multi_match_search_fields = ('title', 'body')
+    filter_fields = {'title': 'title',
+                     'body': 'body'}

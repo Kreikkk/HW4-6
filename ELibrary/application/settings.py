@@ -46,7 +46,15 @@ INSTALLED_APPS = [
     'sslserver',
     'django_celery_results',
     'celery',
+    'django_elasticsearch_dsl',
+    'django_elasticsearch_dsl_drf',
 ]
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    }
+}
 
 CELERY_TIMEZONE = "Europe/Moscow"
 CELERY_TASK_TRACK_STARTED = True
@@ -56,7 +64,7 @@ CELERY_RESULT_BACKEND = 'django-db'
 CELERY_BEAT_SCHEDULE = {
     'user_checking': {
         'task': 'users.tasks.count_users',
-        'schedule': 300,
+        'schedule': 60,
     },
 }
 
@@ -80,7 +88,6 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_URL = 'logout'
 LOGOUT_REDIRECT_URL = 'login'
 
-# SOCIAL_AUTH_GITHUB_OAUTH2_AUTH_EXTRA_ARGUMENTS = { 'prompt': 'select_account' }
 SOCIAL_AUTH_GITHUB_OAUTH2_AUTH_EXTRA_ARGUMENTS = { 'approval_prompt': 'force' }
 
 ROOT_URLCONF = 'application.urls'

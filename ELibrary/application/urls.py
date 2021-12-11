@@ -20,6 +20,8 @@ from django.contrib.auth import views as auth_views
 
 import posts.api.urls as post_urls
 import users.api.urls as user_urls
+from posts.api.views import PublisherDocumentView
+from .views import fill_random_posts
 
 
 urlpatterns = [
@@ -28,6 +30,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('posts/', include('posts.urls')),
     path('users/', include('users.urls')),
+    path('search/', PublisherDocumentView.as_view({'get': 'list'})),
+    path('fill_random_posts/', fill_random_posts, name='fill_random_posts'),
     \
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
